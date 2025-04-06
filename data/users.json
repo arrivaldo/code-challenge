@@ -1,6 +1,5 @@
 {
-  "users": 
-  [
+  "users": [
     {
       "_id": "5410953eb0e0c0ae25608277",
       "guid": "eab0324c-75ef-49a1-9c49-be2d68f50b96",
@@ -90,6 +89,114 @@
       "password": "red^adl4",
       "phone": "+1 (800) 433-3997",
       "address": "622 Fanchon Place, Kohatk, Marshall Islands, 8665"
+    },
+    {
+      "_id": "m958zae6bc4qh",
+      "name": "nede",
+      "email": "nede@gmail.com",
+      "password": "$2b$10$LCf93Lc9Y.6fKl6Pr3jzZOHeYOa7PfoVrRtVw02.a5e27jmBc3ZM6",
+      "createdAt": "2025-04-06T06:14:25.374Z"
+    },
+    {
+      "_id": "m959zq5q2ssn2",
+      "guid": "e1892a60-f204-4c42-8e9f-776d822ba52d",
+      "isActive": true,
+      "balance": "$2500",
+      "picture": "http://placehold.it/32x32",
+      "age": "27",
+      "eyeColor": "blue",
+      "name": {
+        "first": "mika",
+        "last": "williams"
+      },
+      "company": "Rules Cube",
+      "email": "mika@gmail.com",
+      "password": "$2b$10$hj0pJWhDpVzyY00dlMrUlO59OExssDBBQerSGqyKvuQnruxncjb9y",
+      "phone": "5540779043",
+      "address": "Tres Cantos Residencial",
+      "createdAt": "2025-04-06T06:42:45.422Z"
+    },
+    {
+      "_id": "m95auuvbylrby",
+      "guid": "b250b0e3-23b8-4b56-a4ae-f9dadc00e04e",
+      "isActive": true,
+      "balance": "$500000",
+      "picture": "http://placehold.it/32x32",
+      "age": "39",
+      "eyeColor": "brown",
+      "name": {
+        "first": "cristiano",
+        "last": "ronaldo"
+      },
+      "company": "Real Madrid",
+      "email": "cristiano@gmail.com",
+      "password": "$2b$10$VAn7UfFlQV4d.pZh27Ly3.OBXp.lRshpBa2PEDTwIN.BFJDcpiwZ6",
+      "phone": "551011214",
+      "address": "Madeira Portugal",
+      "createdAt": "2025-04-06T07:06:57.863Z"
+    },
+    {
+      "_id": "m95idvirjmw6q",
+      "guid": "2327aa00-56cb-482f-924c-199df320c0a4",
+      "isActive": true,
+      "balance": "$35000",
+      "picture": "http://placehold.it/32x32",
+      "picturePublicId": null,
+      "age": "25",
+      "eyeColor": "blue",
+      "name": {
+        "first": "raul",
+        "last": "jimenez"
+      },
+      "company": "Fulham",
+      "email": "raul@gmail.com",
+      "password": "$2b$10$79BAbVv6F0tCUDMW7.LE5.2LOT/7E1E/CeZdQ/MAEBaZH7tbfXf4G",
+      "phone": "5512114512",
+      "address": "Fullham, England",
+      "createdAt": "2025-04-06T10:37:42.484Z",
+      "updatedAt": "2025-04-06T10:37:42.484Z"
+    },
+    {
+      "_id": "m95jxa32rq15h",
+      "guid": "26a237da-7caa-47bf-99b2-bb9e33ad090d",
+      "isActive": true,
+      "balance": "$1000",
+      "picture": "http://placehold.it/32x32",
+      "picturePublicId": null,
+      "age": "22",
+      "eyeColor": "gray",
+      "name": {
+        "first": "chino",
+        "last": "huerta"
+      },
+      "company": "Pumas",
+      "email": "chino@gmail.com",
+      "password": "$2b$10$cDKDcs.LGh1BRTljf3O/5Ol.LeV5JPyQiWbhJMjaZA8BiMeSYlTyG",
+      "phone": "5522114520",
+      "address": "Anderlecht",
+      "createdAt": "2025-04-06T11:20:47.438Z",
+      "updatedAt": "2025-04-06T11:20:47.438Z"
+    },
+    {
+      "_id": "m95l5zu4kzqql",
+      "guid": "fa4f4382-c4c9-432d-813c-92ee1724d106",
+      "isActive": true,
+      "balance": "$30010",
+      "picture": "https://res.cloudinary.com/dbdjw2c7z/image/upload/v1743941513/user-profiles/xbytw1qhfvhblpjilchl.jpg",
+      "picturePublicId": null,
+      "age": "27",
+      "eyeColor": "green",
+      "name": {
+        "first": "Johan4",
+        "last": "Vazquez"
+      },
+      "company": "Genoa",
+      "email": "johan@gmail.com",
+      "password": "$2b$10$BymGjIuG0.KJZ.WEn4l5y.VryM54QgggMMX0RSzIK.ho.nOHvK7nO",
+      "phone": "5542014512",
+      "address": "Genoa, Italy",
+      "createdAt": "2025-04-06T11:55:33.676Z",
+      "updatedAt": "2025-04-06T12:26:26.766Z"
     }
   ]
 }
