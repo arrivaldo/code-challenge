@@ -93,7 +93,7 @@ app.post("/api/auth/register", async (req, res) => {
       age,
       eyeColor,
       balance,
-      picture // This comes from the frontend (either Cloudinary URL or placeholder)
+      picture
     } = req.body;
 
     // Input validation
@@ -124,8 +124,8 @@ app.post("/api/auth/register", async (req, res) => {
       guid: generateGUID(),
       isActive: true,
       balance: balance || "$1,000.00",
-      picture: picture || "http://placehold.it/32x32", // Use provided URL or default
-      picturePublicId: null, // Will be set if Cloudinary upload was done
+      picture: picture || "http://placehold.it/32x32",
+      picturePublicId: null,
       age: age || 25,
       eyeColor: eyeColor || "brown",
       name: {
@@ -163,7 +163,7 @@ app.post("/api/auth/register", async (req, res) => {
   }
 });
 
-// Login Route
+// Unified Login Route (handles both regular users and admins)
 app.post("/api/auth/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -176,8 +176,24 @@ app.post("/api/auth/login", async (req, res) => {
     }
 
     await db.read();
+
+    // First check if it's an admin
+    const admin = db.data.admins?.find(admin => admin.email === email);
+    if (admin) {
+      const passwordMatch = await bcrypt.compare(password, admin.password);
+      if (passwordMatch) {
+        const { password: _, ...adminWithoutPassword } = admin;
+        return res.json({ 
+          success: true, 
+          message: "Admin login successful",
+          user: adminWithoutPassword,
+          isAdmin: true
+        });
+      }
+    }
+
+    // If not admin, check regular users
     const user = db.data.users.find(user => user.email === email);
-    
     if (!user) {
       return res.status(401).json({ 
         success: false, 
@@ -197,7 +213,8 @@ app.post("/api/auth/login", async (req, res) => {
     res.json({ 
       success: true, 
       message: "Login successful",
-      user: userWithoutPassword
+      user: userWithoutPassword,
+      isAdmin: false
     });
   } catch (error) {
     console.error('Login error:', error);
@@ -246,7 +263,7 @@ app.get("/api/auth/profile", async (req, res) => {
   }
 });
 
-// Update Profile Route (optional - for future use)
+// Update Profile Route
 app.put("/api/auth/profile", async (req, res) => {
   try {
     const { email, updates } = req.body;
@@ -293,6 +310,108 @@ app.put("/api/auth/profile", async (req, res) => {
   }
 });
 
+// Admin Routes
+
+// Get All Users (Admin Only)
+app.get("/api/admin/users", async (req, res) => {
+  try {
+    // In a real app, verify admin credentials from headers or tokens
+    await db.read();
+    
+    // Return users without passwords
+    const users = db.data.users.map(user => {
+      const { password, ...userWithoutPassword } = user;
+      return userWithoutPassword;
+    });
+    
+    res.json({ 
+      success: true, 
+      users 
+    });
+  } catch (error) {
+    console.error('Get users error:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: "Failed to get users",
+      error: error.message
+    });
+  }
+});
+
+// Update User Status (Admin Only)
+app.put("/api/admin/users/:id/status", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { isActive } = req.body;
+
+    await db.read();
+    const userIndex = db.data.users.findIndex(user => user._id === id);
+    
+    if (userIndex === -1) {
+      return res.status(404).json({ 
+        success: false, 
+        message: "User not found" 
+      });
+    }
+
+    db.data.users[userIndex].isActive = isActive;
+    db.data.users[userIndex].updatedAt = new Date().toISOString();
+    await db.write();
+
+    const { password, ...updatedUser } = db.data.users[userIndex];
+    res.json({ 
+      success: true, 
+      message: "User status updated",
+      user: updatedUser
+    });
+  } catch (error) {
+    console.error('Update status error:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: "Failed to update user status",
+      error: error.message
+    });
+  }
+});
+
+// Delete User (Admin Only)
+app.delete("/api/admin/users/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await db.read();
+    const userIndex = db.data.users.findIndex(user => user._id === id);
+    
+    if (userIndex === -1) {
+      return res.status(404).json({ 
+        success: false, 
+        message: "User not found" 
+      });
+    }
+
+    // Delete user's picture from Cloudinary if exists
+    if (db.data.users[userIndex].picturePublicId) {
+      await cloudinary.uploader.destroy(db.data.users[userIndex].picturePublicId)
+        .catch(err => console.error('Cloudinary delete error:', err));
+    }
+
+    db.data.users.splice(userIndex, 1);
+    await db.write();
+
+    res.json({ 
+      success: true, 
+      message: "User deleted successfully"
+    });
+  } catch (error) {
+    console.error('Delete user error:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: "Failed to delete user",
+      error: error.message
+    });
+  }
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error('Server error:', err);
@@ -302,6 +421,14 @@ app.use((err, req, res, next) => {
     error: err.message
   });
 });
+
+app.get('/api/generate-hash', async (req, res) => {
+  const password = "admin123"; // Your admin password
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
+  res.json({ hashedPassword });
+});
+
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
