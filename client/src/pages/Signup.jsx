@@ -27,7 +27,7 @@ const Signup = () => {
     const file = e.target.files[0];
     if (file) {
       // Validate file type and size
-      const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+      const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
       const maxSize = 5 * 1024 * 1024; // 5MB
       
       if (!validTypes.includes(file.type)) {
@@ -153,7 +153,7 @@ const Signup = () => {
     }
   };
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
+    <div className="flex flex-col min-h-screen bg-gray-100 p-7">
       <div className="flex-grow flex justify-center items-center">
         <div className="border shadow p-6 w-full max-w-2xl bg-white">
           <h2 className="text-3xl font-bold mb-4 text-black">Signup</h2>

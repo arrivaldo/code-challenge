@@ -112,7 +112,7 @@ const Login = () => {
             
             {/* Admin hint for demo purposes */}
             <div className="text-center text-xs text-gray-500 mt-4">
-              <p>Admin demo: admin@example.com / admin123</p>
+              <p>Admin demo: admin@gmail.com / admin123</p>
             </div>
           </form>
         </div>
